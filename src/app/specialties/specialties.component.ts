@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {SpecialtiesService} from './specialties.service';
+import {Subscription} from 'rxjs';
+
+
 
 @Component({
   selector: 'app-specialties',
@@ -7,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpecialtiesComponent implements OnInit {
 
-  constructor() { }
+  constructor(public specialtiesService: SpecialtiesService) { }
+
+  private specialtiesSub : Subscription;
+  specialties ;
+
 
   ngOnInit() {
+    this.specialtiesService.getSpecialties().subscribe(response =>{
+      this.specialties = response;
+      console.log(this.specialties);
+    });
   }
 
 }
