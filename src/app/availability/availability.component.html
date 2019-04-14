@@ -1,4 +1,10 @@
 <div class="container" id="citasContainer">
+    <div id="date">
+        <input matInput name="email" placeholder="Elija un día (AAAA-MM-DD)" style="min-width:250px; margin-right: 1rem;">
+        <button class="btn btn-primary pull-right" (click)="availabilityFromDate()">
+            Disponibilidad
+        </button>
+    </div>
     <div class="row text-center">
         <div class="col-md-4">
           <div class="btn-group">

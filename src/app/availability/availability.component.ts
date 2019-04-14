@@ -2,8 +2,10 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef
+  TemplateRef,
+  OnInit
 } from '@angular/core';
+import {AvailabilityService} from './availability.service';
 import {
   startOfDay,
   endOfDay,
@@ -43,8 +45,35 @@ const colors: any = {
   templateUrl: './availability.component.html',
   styleUrls: ['./availability.component.css']
 })
-export class AvailabilityComponent{
-  constructor() {}
+export class AvailabilityComponent implements OnInit{
+  constructor(public availabilityService: AvailabilityService) {}
+
+  available;
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fa fa-fw fa-pencil"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+      }
+    },
+    {
+      label: '<i class="fa fa-fw fa-times"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.events = this.events.filter(iEvent => iEvent !== event);
+      }
+    }
+  ];
+
+  events: CalendarEvent[] = [
+  ];
+
+  ngOnInit(){
+    this.availabilityService.getAvailability().subscribe(response =>{
+      this.available = response;
+    });
+    let dateString = '1968-11-16T00:00' 
+    let newDate = new Date(dateString);
+    console.log(newDate);
+  }
 
   view: CalendarView = CalendarView.Month;
 
@@ -54,8 +83,9 @@ export class AvailabilityComponent{
 
   refresh: Subject<any> = new Subject();
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
+  
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -78,6 +108,37 @@ export class AvailabilityComponent{
   }
 
   closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    console.log(event);
+  }
+
+  availabilityFromDate(){
+    for (var key in this.available) {
+      var start = this.available[key].split('-')[0];
+      var end = this.available[key].split('-')[1];
+      let startString = '2019-04-26T'+start;
+      let endString = '2019-04-26T'+end;
+      let startDate= new Date(startString);
+      let endDate= new Date(endString);
+
+      this.events = [
+        ...this.events,
+        {
+          title: this.available[key],
+          start: startDate,
+          end: endDate,
+          color: colors.blue,
+          draggable: false,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true
+          }
+        }
+      ];
+    }
     this.activeDayIsOpen = false;
   }
 }
