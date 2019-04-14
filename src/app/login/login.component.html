@@ -1,0 +1,23 @@
+<div id="loginContainer">
+    <mat-card>
+      <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
+        <img src="assets/img/DocAppName.png" alt="Doc App Name" style="display: block; margin: auto; ">
+        <div class="inputContainer">
+            <i class="fas fa-user"></i>
+            <mat-form-field>
+              <input matInput name="email" ngModel type="email" #email="ngModel" placeholder="Email" required>
+              <mat-error *ngIf="email.invalid">Por favor, introduzca un email válido.</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="inputContainer">
+            <i class="fas fa-lock"></i>
+            <mat-form-field>
+              <input matInput name="password" ngModel type="password" #password="ngModel" placeholder="Contraseña" required>
+              <mat-error *ngIf="password.invalid">Por favor, introduzca una contraseña válida.</mat-error>
+            </mat-form-field>
+        </div>
+        <button mat-stroked-button >Iniciar sesión</button>
+
+      </form>
+    </mat-card>
+</div>

@@ -1,0 +1,19 @@
+.container {
+    width:90%;
+    padding: 2rem;
+    background-color: #cfe4ff;
+
+}
+div.mat-list-item-content{
+    background-color: red;
+}
+.mat-expansion-panel-header {
+    min-height: 150px;
+}
+
+.mat-expansion-panel {
+    margin: 1rem;
+}
+.fa-calendar-alt{
+    color: #58A9FF;
+}

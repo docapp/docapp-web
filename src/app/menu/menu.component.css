@@ -1,0 +1,27 @@
+nav {
+  height: 100px;
+}
+
+a {
+  margin: 2rem;
+  text-align: center;
+  align-content: center;
+  text-decoration: none;
+  color: #58A9FF;
+  font-size: 20px;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  padding: 0.6rem
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.fas{
+  margin: 0.5rem;
+}
+
+.selected{
+  border-bottom: 2px solid #58A9FF;
+}
+  

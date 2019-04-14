@@ -1,0 +1,22 @@
+.container {
+    width:90%;
+    padding: 2rem;
+    background-color: #cfe4ff;
+}
+
+.card {
+    margin: 1rem;
+    width: 100%;
+    min-height: 180px;
+
+  }
+  
+.header-image {
+    background-image: url('../../assets/img/profile.png');
+    background-size: cover;
+}
+
+.date {
+    display: flex;
+    flex-direction: row;
+}

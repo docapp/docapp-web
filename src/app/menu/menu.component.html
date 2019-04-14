@@ -1,0 +1,27 @@
+
+<nav class="navbar navbar-expand-lg navbar-light">
+  <a routerLink="/"><img src="assets/img/DocAppLogo.png" alt="Logo Doc App"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a mat-button routerLink="/especialidades" routerLinkActive="selected"><i class="fas fa-notes-medical"></i> Especialidades</a>
+      </li>
+      <li class="nav-item">
+        <a mat-button routerLink="/citas" routerLinkActive="selected"><i class="fas fa-list"></i> Tus citas</a>
+      </li>
+    </ul>
+    <mat-list>
+      <mat-list-item>
+        <img matListAvatar src="assets/img/profile.png" alt="Profile">
+        <h3 matLine> Antonio Rodríguez </h3>
+        <p matLine>
+          <span> Paciente </span>
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</nav>

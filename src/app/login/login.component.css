@@ -1,0 +1,34 @@
+#loginContainer {
+    background-color: #cfe4ff;
+    height: 100vh;
+    padding-top: 150px;
+}
+
+#loginContainer  .mat-card {
+    margin: auto;
+    width: 50%;
+}
+#loginContainer  button{
+    display: block; 
+    margin: auto; 
+    color: #58A9FF;
+    margin-bottom: 1rem;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto;
+    padding: 1rem;
+}
+#loginContainer .fas{
+    color:#58A9FF;
+    display: block;
+    margin: auto;
+}
+mat-form-field {
+    display: block;
+    margin: auto;
+    width: 90%;
+}
