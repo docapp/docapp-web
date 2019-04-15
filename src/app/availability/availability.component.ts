@@ -1,6 +1,7 @@
-import {Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {AvailabilityService} from './availability.service';
 import { ActivatedRoute } from '@angular/router';
+import {DatePipe} from '@angular/common';
 
 import {
   startOfDay,
@@ -37,9 +38,17 @@ const colors: any = {
   styleUrls: ['./availability.component.css']
 })
 export class AvailabilityComponent implements OnInit{
-  constructor(public availabilityService: AvailabilityService, private route: ActivatedRoute) {}
+  constructor(public availabilityService: AvailabilityService, private route: ActivatedRoute,
+    private datePipe: DatePipe) {}
 
   available;
+  minDate = new Date();
+  dni = '';
+  refresh: Subject<any> = new Subject();
+  view: CalendarView = CalendarView.Month;
+  CalendarView = CalendarView;
+  viewDate: Date = new Date();
+  activeDayIsOpen: boolean = false;
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -59,23 +68,10 @@ export class AvailabilityComponent implements OnInit{
 
   ngOnInit(){
     this.route.queryParamMap.subscribe(params => {
-      var dni = params.get('dni');
-      this.availabilityService.getAvailability(dni).subscribe(response =>{
-        this.available = response;
-      });
+      this.dni = params.get('dni');
     });
     
   }
-
-  view: CalendarView = CalendarView.Month;
-
-  CalendarView = CalendarView;
-
-  viewDate: Date = new Date();
-
-  refresh: Subject<any> = new Subject();
-
-  activeDayIsOpen: boolean = false;
 
   
 
@@ -107,30 +103,49 @@ export class AvailabilityComponent implements OnInit{
     console.log(event);
   }
 
-  availabilityFromDate(){
-    for (var key in this.available) {
-      var start = this.available[key].split('-')[0];
-      var end = this.available[key].split('-')[1];
-      let startString = '2019-04-26T'+start;
-      let endString = '2019-04-26T'+end;
-      let startDate= new Date(startString);
-      let endDate= new Date(endString);
-
-      this.events = [
-        ...this.events,
-        {
-          title: this.available[key],
-          start: startDate,
-          end: endDate,
-          color: colors.blue,
-          draggable: false,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true
-          }
+  availabilityFromDate(event){
+    var chosenDate = event.value;
+    var formattedDate = this.datePipe.transform(chosenDate,"yyyy-MM-dd");
+    this.availabilityService.getAvailability(this.dni, formattedDate).subscribe(response =>{
+      this.available = response;
+      console.log(this.available);
+      this.events = [];
+      for (var key in this.available) {
+        var start = this.available[key].split('-')[0];
+        var end = this.available[key].split('-')[1];
+        var startString = '';
+        var endString= '';
+        if (start.length==4){
+          startString = formattedDate+'T0'+start;
+        } else{
+          startString = formattedDate+'T'+start;
         }
-      ];
-    }
-    this.activeDayIsOpen = false;
+        if (end.length==4){
+          endString = formattedDate+'T0'+end;
+        } else{
+          endString = formattedDate+'T'+end;
+        }        
+        let startDate= new Date(startString);
+        let endDate= new Date(endString);
+        console.log(startString);
+        console.log(endString);
+        this.events = [
+          ...this.events,
+          {
+            title: this.available[key],
+            start: startDate,
+            end: endDate,
+            color: colors.blue,
+            draggable: false,
+            resizable: {
+              beforeStart: true,
+              afterEnd: true
+            }
+          }
+        ];
+      }
+      this.refresh.next();
+    });
+    
   }
 }

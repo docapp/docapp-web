@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -19,7 +19,9 @@ import {
   MatExpansionModule,
   MatButtonModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from "@angular/material";
 import { AvailabilityComponent } from './availability/availability.component';
 import { LoginComponent } from './login/login.component';
@@ -48,13 +50,15 @@ import { LoginComponent } from './login/login.component';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     CommonModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
     })
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
