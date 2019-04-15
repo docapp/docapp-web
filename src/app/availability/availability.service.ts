@@ -6,8 +6,8 @@ export class AvailabilityService {
     
     constructor(private http: HttpClient) {}
 
-    getAvailability(){
-        return this.http.get("http://localhost:8080/ISST2019/api/availability?doc_dni=28162062&date=2019-04-26");
+    getAvailability(dni: string){
+        return this.http.get("http://localhost:8080/ISST2019/api/availability?doc_dni="+dni +"&date=2019-04-26");
     }
 
 }

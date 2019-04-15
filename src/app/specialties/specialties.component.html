@@ -14,7 +14,7 @@
   <ul matLine>
       <li *ngFor="let doctor of specialty.doctors">
         {{doctor.name}} {{doctor.surname}}
-         <a mat-button routerLink="/disponibilidad"><i class="fas fa-calendar-alt"></i> </a></li>
+         <a mat-button routerLink="/disponibilidad" [queryParams]="{dni: doctor.dni}" skipLocationChange=true><i class="fas fa-calendar-alt"></i> </a></li>
     </ul>
   </mat-expansion-panel>
 

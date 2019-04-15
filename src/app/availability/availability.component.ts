@@ -1,11 +1,7 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-  OnInit
-} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit} from '@angular/core';
 import {AvailabilityService} from './availability.service';
+import { ActivatedRoute } from '@angular/router';
+
 import {
   startOfDay,
   endOfDay,
@@ -17,12 +13,7 @@ import {
   addHours
 } from 'date-fns';
 import { Subject } from 'rxjs';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView
-} from 'angular-calendar';
+import { CalendarEvent, CalendarEventAction, CalendarView} from 'angular-calendar';
 
 const colors: any = {
   red: {
@@ -46,7 +37,7 @@ const colors: any = {
   styleUrls: ['./availability.component.css']
 })
 export class AvailabilityComponent implements OnInit{
-  constructor(public availabilityService: AvailabilityService) {}
+  constructor(public availabilityService: AvailabilityService, private route: ActivatedRoute) {}
 
   available;
   actions: CalendarEventAction[] = [
@@ -67,12 +58,13 @@ export class AvailabilityComponent implements OnInit{
   ];
 
   ngOnInit(){
-    this.availabilityService.getAvailability().subscribe(response =>{
-      this.available = response;
+    this.route.queryParamMap.subscribe(params => {
+      var dni = params.get('dni');
+      this.availabilityService.getAvailability(dni).subscribe(response =>{
+        this.available = response;
+      });
     });
-    let dateString = '1968-11-16T00:00' 
-    let newDate = new Date(dateString);
-    console.log(newDate);
+    
   }
 
   view: CalendarView = CalendarView.Month;
