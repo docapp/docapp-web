@@ -103,12 +103,14 @@ export class AvailabilityComponent implements OnInit{
     console.log(event);
   }
 
-  availabilityFromDate(event){
-    var chosenDate = event.value;
+  availabilityFromDate(event, fromCalendarClick){
+    var chosenDate = event.date;
+    if(!fromCalendarClick){
+      chosenDate = event.value;
+    }
     var formattedDate = this.datePipe.transform(chosenDate,"yyyy-MM-dd");
     this.availabilityService.getAvailability(this.dni, formattedDate).subscribe(response =>{
       this.available = response;
-      console.log(this.available);
       this.events = [];
       for (var key in this.available) {
         var start = this.available[key].split('-')[0];
@@ -127,8 +129,6 @@ export class AvailabilityComponent implements OnInit{
         }        
         let startDate= new Date(startString);
         let endDate= new Date(endString);
-        console.log(startString);
-        console.log(endString);
         this.events = [
           ...this.events,
           {
@@ -145,6 +145,7 @@ export class AvailabilityComponent implements OnInit{
         ];
       }
       this.refresh.next();
+      this.dayClicked(event);
     });
     
   }

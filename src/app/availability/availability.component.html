@@ -1,7 +1,7 @@
 <div class="container" id="citasContainer">
     <div id="date">
       <mat-form-field style="margin-right: 1rem;">
-        <input matInput [min]="minDate" [matDatepicker]="picker" placeholder="Selecciona una fecha" (dateChange)="availabilityFromDate($event)" >
+        <input matInput [min]="minDate" [matDatepicker]="picker" placeholder="Selecciona una fecha" (dateChange)="availabilityFromDate($event,false)" >
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -73,7 +73,7 @@
           [events]="events"
           [refresh]="refresh"
           [activeDayIsOpen]="activeDayIsOpen"
-          (dayClicked)="dayClicked($event.day)"
+          (dayClicked)="availabilityFromDate($event.day,true)"
           (eventClicked)="handleEvent('Clicked', $event.event)"
           (eventTimesChanged)="eventTimesChanged($event)"
         >
