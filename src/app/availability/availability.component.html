@@ -1,7 +1,7 @@
 <div class="container" id="citasContainer">
     <div id="date">
       <mat-form-field style="margin-right: 1rem;">
-        <input matInput [min]="minDate" [matDatepicker]="picker" placeholder="Selecciona una fecha" (dateChange)="availabilityFromDate($event,false)" >
+        <input matInput [min]="minDateInput" [matDatepicker]="picker" placeholder="Selecciona una fecha" (dateChange)="availabilityFromDate($event,false)" >
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -9,7 +9,7 @@
     <div class="row text-center">
         <div class="col-md-4">
           <div class="btn-group">
-            <div
+            <button
               class="btn btn-primary"
               mwlCalendarPreviousView
               [view]="view"
@@ -17,7 +17,7 @@
               (viewDateChange)="closeOpenMonthViewDay()"
             >
               Previous
-            </div>
+          </button>
             <div
               class="btn btn-outline-secondary"
               mwlCalendarToday
@@ -25,7 +25,7 @@
             >
               Today
             </div>
-            <div
+            <button
               class="btn btn-primary"
               mwlCalendarNextView
               [view]="view"
@@ -33,7 +33,7 @@
               (viewDateChange)="closeOpenMonthViewDay()"
             >
               Next
-            </div>
+          </button>
           </div>
         </div>
         <div class="col-md-4">
@@ -41,24 +41,24 @@
         </div>
         <div class="col-md-4">
           <div class="btn-group">
-            <div
+              <div
               class="btn btn-primary"
-              (click)="setView(CalendarView.Month)"
-              [class.active]="view === CalendarView.Month"
+              (click)="changeView('month')"
+              [class.active]="view === 'month'"
             >
               Month
             </div>
             <div
               class="btn btn-primary"
-              (click)="setView(CalendarView.Week)"
-              [class.active]="view === CalendarView.Week"
+              (click)="changeView('week')"
+              [class.active]="view === 'week'"
             >
               Week
             </div>
             <div
               class="btn btn-primary"
-              (click)="setView(CalendarView.Day)"
-              [class.active]="view === CalendarView.Day"
+              (click)="changeView('day')"
+              [class.active]="view === 'day'"
             >
               Day
             </div>
@@ -68,7 +68,7 @@
       <br />
       <div [ngSwitch]="view">
         <mwl-calendar-month-view
-          *ngSwitchCase="CalendarView.Month"
+          *ngSwitchCase="'month'"
           [viewDate]="viewDate"
           [events]="events"
           [refresh]="refresh"
@@ -76,10 +76,11 @@
           (dayClicked)="availabilityFromDate($event.day,true)"
           (eventClicked)="handleEvent('Clicked', $event.event)"
           (eventTimesChanged)="eventTimesChanged($event)"
+          (beforeViewRender)="beforeMonthViewRender($event)"
         >
         </mwl-calendar-month-view>
         <mwl-calendar-week-view
-          *ngSwitchCase="CalendarView.Week"
+          *ngSwitchCase="'week'"
           [viewDate]="viewDate"
           [events]="events"
           [refresh]="refresh"
@@ -88,7 +89,7 @@
         >
         </mwl-calendar-week-view>
         <mwl-calendar-day-view
-          *ngSwitchCase="CalendarView.Day"
+          *ngSwitchCase="'day'"
           [viewDate]="viewDate"
           [events]="events"
           [refresh]="refresh"

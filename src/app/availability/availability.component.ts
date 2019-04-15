@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit,   ViewEncapsulation} from '@angular/core';
 import {AvailabilityService} from './availability.service';
 import { ActivatedRoute } from '@angular/router';
 import {DatePipe} from '@angular/common';
@@ -8,13 +8,19 @@ import {
   endOfDay,
   subDays,
   addDays,
-  endOfMonth,
+  addWeeks,
+  addMonths,
+  subMonths,
   isSameDay,
   isSameMonth,
-  addHours
+  startOfWeek,
+  startOfMonth,
+  endOfWeek,
+  endOfMonth,
+  subWeeks
 } from 'date-fns';
 import { Subject } from 'rxjs';
-import { CalendarEvent, CalendarEventAction, CalendarView} from 'angular-calendar';
+import { CalendarEvent, CalendarEventAction, CalendarView, CalendarMonthViewDay} from 'angular-calendar';
 
 const colors: any = {
   red: {
@@ -30,22 +36,58 @@ const colors: any = {
     secondary: '#FDF1BA'
   }
 };
+type CalendarPeriod = 'day' | 'week' | 'month';
+
+function addPeriod(period: CalendarPeriod, date: Date, amount: number): Date {
+  return {
+    day: addDays,
+    week: addWeeks,
+    month: addMonths
+  }[period](date, amount);
+}
+function subPeriod(period: CalendarPeriod, date: Date, amount: number): Date {
+  return {
+    day: subDays,
+    week: subWeeks,
+    month: subMonths
+  }[period](date, amount);
+}
+
+function startOfPeriod(period: CalendarPeriod, date: Date): Date {
+  return {
+    day: startOfDay,
+    week: startOfWeek,
+    month: startOfMonth
+  }[period](date);
+}
+
+function endOfPeriod(period: CalendarPeriod, date: Date): Date {
+  return {
+    day: endOfDay,
+    week: endOfWeek,
+    month: endOfMonth
+  }[period](date);
+}
 
 @Component({
   selector: 'app-availability',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './availability.component.html',
-  styleUrls: ['./availability.component.css']
+  styleUrls: ['./availability.component.css'],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class AvailabilityComponent implements OnInit{
   constructor(public availabilityService: AvailabilityService, private route: ActivatedRoute,
-    private datePipe: DatePipe) {}
+    private datePipe: DatePipe) {
+      this.dateOrViewChanged();
+    }
 
   available;
-  minDate = new Date();
+  minDateInput = new Date();
   dni = '';
   refresh: Subject<any> = new Subject();
-  view: CalendarView = CalendarView.Month;
+  view: CalendarPeriod = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
   activeDayIsOpen: boolean = false;
@@ -62,7 +104,10 @@ export class AvailabilityComponent implements OnInit{
       }
     }
   ];
-
+  minDate: Date = subMonths(new Date(), 0);
+  maxDate: Date = addMonths(new Date(), 3);
+  prevBtnDisabled: boolean = false;
+  nextBtnDisabled: boolean = false;
   events: CalendarEvent[] = [
   ];
 
@@ -72,8 +117,6 @@ export class AvailabilityComponent implements OnInit{
     });
     
   }
-
-  
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -101,6 +144,53 @@ export class AvailabilityComponent implements OnInit{
 
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
+  }
+
+  increment(): void {
+    this.changeDate(addPeriod(this.view, this.viewDate, 1));
+  }
+
+  decrement(): void {
+    this.changeDate(subPeriod(this.view, this.viewDate, 1));
+  }
+
+  today(): void {
+    this.changeDate(new Date());
+  }
+
+  dateIsValid(date: Date): boolean {
+    return date >= this.minDate && date <= this.maxDate;
+  }
+
+  changeDate(date: Date): void {
+    this.viewDate = date;
+    this.dateOrViewChanged();
+  }
+  changeView(view: CalendarPeriod): void {
+    this.view = view;
+    this.dateOrViewChanged();
+  }
+
+  dateOrViewChanged(): void {
+    this.prevBtnDisabled = !this.dateIsValid(
+      endOfPeriod(this.view, subPeriod(this.view, this.viewDate, 1))
+    );
+    this.nextBtnDisabled = !this.dateIsValid(
+      startOfPeriod(this.view, addPeriod(this.view, this.viewDate, 1))
+    );
+    if (this.viewDate < this.minDate) {
+      this.changeDate(this.minDate);
+    } else if (this.viewDate > this.maxDate) {
+      this.changeDate(this.maxDate);
+    }
+  }
+
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    body.forEach(day => {
+      if (!this.dateIsValid(day.date)) {
+        day.cssClass = 'cal-disabled';
+      }
+    });
   }
 
   availabilityFromDate(event, fromCalendarClick){
