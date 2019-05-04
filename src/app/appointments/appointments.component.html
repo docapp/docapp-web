@@ -1,56 +1,20 @@
 <div class="container">
   <h1>Tus citas</h1>
-  <mat-card class="card">
+  <mat-card class="card" *ngFor="let appointment of appointments">
       <mat-card-header>
         <div mat-card-avatar class="header-image"></div>
-        <mat-card-title>Toribio Guzman Pelaez</mat-card-title>
+        <mat-card-title>{{appointment.doctor_name}} {{appointment.doctor_surname}}</mat-card-title>
         <mat-card-subtitle>Cardiología</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <div class="date">
-          <div style="width: 50%">Fecha: 27/08/2018</div>
-          <div style="width: 50%">Hora: 11.00AM</div>
+          <div style="width: 50%">Fecha: {{appointment.date}}</div>
+          <div style="width: 50%">Hora: {{time[appointment.start_time]}}</div>
         </div>
       </mat-card-content>
       <mat-card-actions style="float: right">
-        <button mat-button color="primary">CAMBIAR</button>
+        <button mat-button disabled="{{appointment.presence}}" (click)="confirmClick(appointment.app_id)" color="primary">CONFIRMAR PRESENCIA</button>
         <button mat-button color="warn">CANCELAR</button>
       </mat-card-actions>
-    </mat-card>
-  
-    <mat-card class="card">
-        <mat-card-header>
-          <div mat-card-avatar class="header-image"></div>
-          <mat-card-title>Mercedes Benz Ovejero</mat-card-title>
-          <mat-card-subtitle>Alergología</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="date">
-            <div style="width: 50%">Fecha: 27/08/2018</div>
-            <div style="width: 50%">Hora: 12.00AM</div>
-          </div>
-        </mat-card-content>
-        <mat-card-actions style="float: right">
-          <button mat-button color="primary">CAMBIAR</button>
-          <button mat-button color="warn">CANCELAR</button>
-        </mat-card-actions>
-      </mat-card>
-
-      <mat-card class="card">
-          <mat-card-header>
-            <div mat-card-avatar class="header-image"></div>
-            <mat-card-title>Toribio Guzman Pelaez</mat-card-title>
-            <mat-card-subtitle>Cardiología</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="date">
-              <div style="width: 50%">Fecha: 27/08/2018</div>
-              <div style="width: 50%">Hora: 11.00AM</div>
-            </div>
-          </mat-card-content>
-          <mat-card-actions style="float: right">
-            <button mat-button color="primary">CAMBIAR</button>
-            <button mat-button color="warn">CANCELAR</button>
-          </mat-card-actions>
-        </mat-card>
+  </mat-card>
 </div>
