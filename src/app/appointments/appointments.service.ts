@@ -9,7 +9,7 @@ export class AppointmentsService {
     
 
     getAppointments(){
-        return this.http.get("http://localhost:8080/ISST2019/api/pat-appointment?dni=22222222");
+        return this.http.get("http://localhost:8080/ISST2019/api/pat-appointment?dni=00000000");
     }
     confirmPresence(id){
         const httpOptions = {
@@ -22,9 +22,7 @@ export class AppointmentsService {
             res => {
               console.log(res);
             },
-            err => {
-                console.log(err);
-            console.log("Error occured");
+            err=> {
             }
           );
     }

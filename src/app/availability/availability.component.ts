@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, OnInit,   ViewEncapsulation} from '@angular/core';
 import {AvailabilityService} from './availability.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {DatePipe} from '@angular/common';
 
 import {
@@ -79,11 +79,24 @@ function endOfPeriod(period: CalendarPeriod, date: Date): Date {
 })
 export class AvailabilityComponent implements OnInit{
   constructor(public availabilityService: AvailabilityService, private route: ActivatedRoute,
+    private router : Router,
     private datePipe: DatePipe) {
       this.dateOrViewChanged();
     }
 
   available;
+  time = [
+    "9:00-9:30",
+    "9:30-10:00",
+    "10:00-10:30",
+    "10:30-11:00",
+    "11:00-11:30",
+    "11:30-12:00",
+    "12:00-12:30",
+    "12:30-13:00",
+    "13:00-13:30",
+    "13:30-14:00"
+  ];
   minDateInput = new Date();
   dni = '';
   refresh: Subject<any> = new Subject();
@@ -142,8 +155,30 @@ export class AvailabilityComponent implements OnInit{
     this.activeDayIsOpen = false;
   }
 
+  // Create an appointment
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
+    var m = event.end.getMonth();
+    m++;
+    var month = m.toString();
+    var day = event.start.getDate().toString();
+    if(month.length==1){
+      month = "0"+month;
+    }
+    if(day.length==1){
+      day = "0"+day;
+    }
+    var indextime = this.time.findIndex(x=>x==event.title);
+    var date = event.start.getFullYear()+"-"+month+"-"+day;
+    console.log(date);
+    this.availabilityService.addAppointment(this.dni,'00000000',indextime,date);
+    var first = true;
+    setInterval(() => {
+      if(first){
+        this.router.navigateByUrl('/appointments');
+        first = false;
+      }
+     }, 1000);
   }
 
   increment(): void {

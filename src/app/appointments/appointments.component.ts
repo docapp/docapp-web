@@ -40,7 +40,6 @@ export class AppointmentsComponent implements OnInit {
         this.ngOnInit();
         first = false;
       }
-
      }, 1000);
   }
 

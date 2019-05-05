@@ -11,9 +11,9 @@ import { AvailabilityComponent } from "./availability/availability.component";
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'especialidades', component: SpecialtiesComponent },
-  { path: 'citas', component: AppointmentsComponent },
-  { path: 'disponibilidad', component: AvailabilityComponent },
+  { path: 'specialties', component: SpecialtiesComponent },
+  { path: 'appointments', component: AppointmentsComponent },
+  { path: 'availability', component: AvailabilityComponent },
 
 ];
 @NgModule({
