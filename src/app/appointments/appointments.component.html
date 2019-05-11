@@ -3,8 +3,8 @@
   <mat-card class="card" *ngFor="let appointment of appointments">
       <mat-card-header>
         <div mat-card-avatar class="header-image"></div>
-        <mat-card-title>{{appointment.doctor_name}} {{appointment.doctor_surname}}</mat-card-title>
-        <mat-card-subtitle>Cardiología</mat-card-subtitle>
+        <mat-card-title>{{appointment.patient_name}} {{appointment.patient_surname}}</mat-card-title>
+        <mat-card-subtitle>Otorrinolaringología</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <div class="date">
@@ -13,8 +13,8 @@
         </div>
       </mat-card-content>
       <mat-card-actions style="float: right">
-        <button mat-button disabled="{{appointment.presence}}" (click)="confirmClick(appointment.app_id)" color="primary">CONFIRMAR PRESENCIA</button>
-        <button mat-button color="warn">CANCELAR</button>
+        <h5 *ngIf="appointment.presence" style="color: #58A9FF">Paciente presente</h5>
+        <button *ngIf="!appointment.presence" mat-button color="warn">CANCELAR</button>
       </mat-card-actions>
   </mat-card>
 </div>
