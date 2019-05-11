@@ -171,7 +171,7 @@ export class AvailabilityComponent implements OnInit{
     var indextime = this.time.findIndex(x=>x==event.title);
     var date = event.start.getFullYear()+"-"+month+"-"+day;
     console.log(date);
-    this.availabilityService.addAppointment(this.dni,'00000000',indextime,date);
+    this.availabilityService.addAppointment(this.dni,'12312312A',indextime,date);
     var first = true;
     setInterval(() => {
       if(first){
