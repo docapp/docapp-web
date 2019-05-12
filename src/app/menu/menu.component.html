@@ -17,9 +17,10 @@
     <mat-list>
       <mat-list-item>
         <img matListAvatar src="assets/img/profile.png" alt="Profile">
-        <h3 matLine> Mateo Lozano </h3>
+        <h3 matLine *ngIf="name!=''"> {{name}} {{surname}} </h3>
+        <h3 matLine *ngIf="name==''"> Iniciar sesión </h3>
         <p matLine>
-          <span> Paciente </span>
+          <span *ngIf="name!=''"> Paciente </span>
         </p>
       </mat-list-item>
     </mat-list>
