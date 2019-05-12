@@ -25,9 +25,8 @@ export class LoginComponent implements OnInit {
     let pass = loginForm.value.password;
     this.loginService.login(dni, pass).subscribe(res => {
       this.user = res;
-      console.log(res);
       this.loginService.changeUser(this.user.name, this.user.surname, this.user.dni);
-      this.router.navigate(['/specialties']);
+      this.router.navigate(['/appointments']);
     });
     
   }

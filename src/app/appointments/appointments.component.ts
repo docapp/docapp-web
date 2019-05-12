@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AppointmentsService} from './appointments.service';
+import {LoginService} from '../login/login.service';
+import { Subscription }   from 'rxjs';
 
 
 @Component({
@@ -8,8 +10,9 @@ import {AppointmentsService} from './appointments.service';
   styleUrls: ['./appointments.component.css']
 })
 export class AppointmentsComponent implements OnInit {
-
+  subscription: Subscription;
   appointments;
+  dni : String = "";
   time = [
     "9:00-9:30",
     "9:30-10:00",
@@ -22,14 +25,20 @@ export class AppointmentsComponent implements OnInit {
     "13:00-13:30",
     "13:30-14:00"
   ];
-  constructor(public appointmentsService: AppointmentsService) { }
-
+  constructor(public appointmentsService: AppointmentsService,
+    public loginService: LoginService
+    ) {
+    
+     }
 
   ngOnInit() {
-    this.appointmentsService.getAppointments().subscribe(response=>{
+    var user = this.loginService.getUser();
+    this.dni = user.dni;
+    this.appointmentsService.getAppointments(this.dni).subscribe(response=>{
       this.appointments= response;
       console.log(this.appointments);
     });
+    
   }
 
   confirmClick(id){

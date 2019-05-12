@@ -6,8 +6,8 @@ export class AppointmentsService {
     
     constructor(private http: HttpClient) {}
 
-    getAppointments(){
-        return this.http.get("http://localhost:8080/ISST2019/api/pat-appointment?dni=12312312A");
+    getAppointments(dni){
+        return this.http.get("http://localhost:8080/ISST2019/api/pat-appointment?dni="+dni);
     }
     confirmPresence(id){
         const httpOptions = {

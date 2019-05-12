@@ -15,13 +15,20 @@ export class LoginService {
 
     name$ = this.nameSource.asObservable();
     surname$ = this.surnameSource.asObservable();
-    dni$ = this.surnameSource.asObservable();
+    dni$ = this.dniSource.asObservable();
+
+    name ;
+    surname;
+    dni;
 
 
     changeUser(name: string, surname: string, dni: string) {
         this.nameSource.next(name);
         this.surnameSource.next(surname);
-        this.dniSource.next(surname);
+        this.dniSource.next(dni);
+        this.name= name;
+        this.surname = surname;
+        this.dni = dni;
     }
 
     login(dni, pass){
@@ -32,6 +39,10 @@ export class LoginService {
         };
         return this.http.post("http://localhost:8080/ISST2019/api/login?dni="+dni+"&password="+pass
         ,httpOptions);
+    }
+
+    getUser(){
+        return {name:this.name, surname: this.surname, dni: this.dni};
     }
 
 

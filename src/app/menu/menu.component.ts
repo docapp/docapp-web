@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {LoginService} from '../login/login.service';
 import { Subscription }   from 'rxjs';
 
@@ -16,8 +16,7 @@ export class MenuComponent implements OnInit {
 
 
   constructor(    
-    public loginService: LoginService,
-    
+    public loginService: LoginService
     ) { 
       this.subscription = loginService.name$.subscribe(
         res => {
