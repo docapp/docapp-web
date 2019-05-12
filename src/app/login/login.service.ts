@@ -13,14 +13,7 @@ export class LoginService {
             })
         };
         return this.http.post("http://localhost:8080/ISST2019/api/login?dni="+dni+"&password="+pass
-        ,httpOptions)
-        .subscribe(
-            res => {
-              console.log(res);
-            },
-            err=> {
-            }
-          );
+        ,httpOptions);
     }
 
 }
