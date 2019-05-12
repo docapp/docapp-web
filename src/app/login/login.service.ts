@@ -2,20 +2,18 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders  } from "@angular/common/http";
 
 @Injectable({ providedIn: "root" })
-export class AppointmentsService {
+export class LoginService {
     
     constructor(private http: HttpClient) {}
 
-    getAppointments(){
-        return this.http.get("http://localhost:8080/ISST2019/api/pat-appointment?dni=12312312A");
-    }
-    confirmPresence(id){
+    login(dni, pass){
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type':'application/json; charset=utf-8'
             })
         };
-        return this.http.post("http://localhost:8080/ISST2019/api/presence?id="+id,httpOptions)
+        return this.http.post("http://localhost:8080/ISST2019/api/login?dni="+dni+"&password="+pass
+        ,httpOptions)
         .subscribe(
             res => {
               console.log(res);

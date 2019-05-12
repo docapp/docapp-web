@@ -5,8 +5,8 @@
         <div class="inputContainer">
             <i class="fas fa-user"></i>
             <mat-form-field>
-              <input matInput name="email" ngModel type="email" #email="ngModel" placeholder="Email" required>
-              <mat-error *ngIf="email.invalid">Por favor, introduzca un email válido.</mat-error>
+              <input matInput name="dni" ngModel type="string" #dni="ngModel" placeholder="DNI" required>
+              <mat-error *ngIf="dni.invalid">Por favor, introduzca un DNI válido.</mat-error>
             </mat-form-field>
         </div>
         <div class="inputContainer">
