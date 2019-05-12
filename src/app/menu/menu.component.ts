@@ -13,6 +13,7 @@ export class MenuComponent implements OnInit {
   subscription: Subscription;
   name : String = "";
   surname : String = "";
+  role : String = "";
 
 
   constructor(    
@@ -25,6 +26,10 @@ export class MenuComponent implements OnInit {
       this.subscription = loginService.surname$.subscribe(
         res => {
           this.surname = res;
+      });
+      this.subscription = loginService.role$.subscribe(
+        res => {
+          this.role = res;
       });
 
     }

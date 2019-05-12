@@ -13,6 +13,7 @@ export class AppointmentsComponent implements OnInit {
   subscription: Subscription;
   appointments;
   dni : String = "";
+  role : String = "";
   time = [
     "9:00-9:30",
     "9:30-10:00",
@@ -34,7 +35,8 @@ export class AppointmentsComponent implements OnInit {
   ngOnInit() {
     var user = this.loginService.getUser();
     this.dni = user.dni;
-    this.appointmentsService.getAppointments(this.dni).subscribe(response=>{
+    this.role = user.role;
+    this.appointmentsService.getAppointments(this.dni, this.role).subscribe(response=>{
       this.appointments= response;
       console.log(this.appointments);
     });

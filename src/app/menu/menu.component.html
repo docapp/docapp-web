@@ -20,7 +20,7 @@
         <h3 matLine *ngIf="name!=''"> {{name}} {{surname}} </h3>
         <h3 matLine *ngIf="name==''"> Iniciar sesión </h3>
         <p matLine>
-          <span *ngIf="name!=''"> Paciente </span>
+          <span *ngIf="name!=''"> {{role}} </span>
         </p>
       </mat-list-item>
     </mat-list>

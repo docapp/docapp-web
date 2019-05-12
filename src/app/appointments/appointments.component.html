@@ -3,7 +3,8 @@
   <mat-card class="card" *ngFor="let appointment of appointments">
       <mat-card-header>
         <div mat-card-avatar class="header-image"></div>
-        <mat-card-title>{{appointment.doctor_name}} {{appointment.doctor_surname}}</mat-card-title>
+        <mat-card-title *ngIf="appointment.doctor_name !=''">{{appointment.doctor_name}} {{appointment.doctor_surname}}</mat-card-title>
+        <mat-card-title *ngIf="appointment.patient_name !=''">{{appointment.patient_name}} {{appointment.patient_surname}}</mat-card-title>
         <mat-card-subtitle>Cardiología</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>

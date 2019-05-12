@@ -11,24 +11,30 @@ export class LoginService {
     private nameSource = new Subject<string>();
     private surnameSource = new Subject<string>();
     private dniSource = new Subject<string>();
+    private roleSource = new Subject<string>();
 
 
     name$ = this.nameSource.asObservable();
     surname$ = this.surnameSource.asObservable();
     dni$ = this.dniSource.asObservable();
+    role$ = this.roleSource.asObservable();
+
 
     name ;
     surname;
     dni;
+    role;
 
 
-    changeUser(name: string, surname: string, dni: string) {
+    changeUser(name: string, surname: string, dni: string, role:string) {
         this.nameSource.next(name);
         this.surnameSource.next(surname);
         this.dniSource.next(dni);
+        this.roleSource.next(role);
         this.name= name;
         this.surname = surname;
         this.dni = dni;
+        this.role = dni;
     }
 
     login(dni, pass){
@@ -42,7 +48,7 @@ export class LoginService {
     }
 
     getUser(){
-        return {name:this.name, surname: this.surname, dni: this.dni};
+        return {name:this.name, surname: this.surname, dni: this.dni, role: this.role};
     }
 
 

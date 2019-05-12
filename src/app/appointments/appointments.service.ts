@@ -6,8 +6,12 @@ export class AppointmentsService {
     
     constructor(private http: HttpClient) {}
 
-    getAppointments(dni){
-        return this.http.get("http://localhost:8080/ISST2019/api/pat-appointment?dni="+dni);
+    getAppointments(dni, role){
+        if(role === "Patient") {
+            return this.http.get("http://localhost:8080/ISST2019/api/pat-appointment?dni="+dni);
+        } else {
+            return this.http.get("http://localhost:8080/ISST2019/api/doc-appointment?dni="+dni);
+        }
     }
     confirmPresence(id){
         const httpOptions = {
